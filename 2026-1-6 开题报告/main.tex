@@ -1,0 +1,50 @@
+% main.tex
+\documentclass[a4paper,zihao=-5]{ctexart} % 强制小五号字作为基准
+
+% --- 核心宏包 ---
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{booktabs} % 三线表
+\usepackage{fancyhdr}
+
+% --- 格式暴力约束 ---
+% 页面边距设置（标准学术设置，可按需微调）
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+
+% 强制全局固定行距 16磅
+\setlength{\baselineskip}{16pt}
+\renewcommand{\baselinestretch}{1.0} % 重置倍数，确保固定值生效
+
+% 标题格式微调（因为正文很小，标题不宜过大）
+\titleformat{\section}{\zihao{4}\heiti\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\zihao{-4}\heiti}{\thesubsection}{1em}{}
+
+% 修正小五号字下的段间距
+\setlength{\parskip}{0pt} 
+
+\begin{document}
+
+% 1. 封面
+\input{cover}
+
+% 2. 目录 (单独一页)
+\newpage
+\tableofcontents
+\newpage
+
+% 3. 正文 - 分章节导入
+\zihao{-5}
+\setlength{\baselineskip}{16pt}
+
+\input{1_background}        % 课题背景与意义
+\input{2_research_status}   % 国内外研究现状
+\input{3_dataset}           % 数据集介绍 (CH-SIMS)
+\input{4_technical_route}   % 核心技术路线
+\input{5_experiment}        % 实验设计与预期产出
+\input{6_schedule}          % 进度安排
+\input{references}          % 参考文献
+
+\end{document}

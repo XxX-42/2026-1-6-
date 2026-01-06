@@ -1,0 +1,38 @@
+% 3_dataset.tex - 数据集介绍 (CH-SIMS)
+
+\section{数据集介绍}
+
+\subsection{CH-SIMS 数据集概述}
+本项目选用 \textbf{CH-SIMS} (Chinese Single- and Multi-modal Sentiment Analysis) 数据集，这是\textbf{首个包含细粒度标注的中文多模态情感数据集}，由清华大学于 ACL 2020 发布。
+
+\begin{itemize}
+    \item \textbf{数据来源}：非受控环境下的\textbf{影视片段}（电影、电视剧、综艺），涵盖多样化的说话人、场景和情感表达。
+    \item \textbf{样本规模}：共 \textbf{2,281} 个标注样本，划分为训练集 (1,368) / 验证集 (456) / 测试集 (457)。
+    \item \textbf{标注特点}：提供\textbf{多模态独立标注}，即文本、视觉、声学三个模态分别有独立的情感标签，便于分析各模态的贡献度。
+\end{itemize}
+
+\subsection{数据集难点}
+\begin{itemize}
+    \item \textbf{类别非平衡}：正负情感样本分布不均，需引入 \textbf{Class Weights}（类别加权）或过采样策略以防止模型偏向多数类。
+    \item \textbf{噪声干扰}：部分样本存在背景音乐、多人对话、画面遮挡等干扰因素，对模型鲁棒性提出较高要求。
+\end{itemize}
+
+\subsection{数据预处理流程}
+为确保多模态特征的有效提取，本项目设计以下预处理管线：
+
+\begin{enumerate}
+    \item \textbf{时序对齐}：采用 CH-SIMS 官方提供的 \textbf{Word-level Alignment} 标注，将视频帧与音频片段对齐至文本词级粒度。
+    
+    \item \textbf{人脸检测与对齐}：
+    \begin{itemize}
+        \item 使用 \textbf{MTCNN} (Multi-task Cascaded Convolutional Networks) 检测人脸边界框及\textbf{5点关键点}（双眼、鼻尖、嘴角）。
+        \item 基于关键点进行\textbf{仿射变换}，将人脸归一化至统一尺寸 ($224 \times 224$)，消除姿态与尺度差异。
+    \end{itemize}
+    
+    \item \textbf{数据清洗}：
+    \begin{itemize}
+        \item 剔除\textbf{黑帧}（全黑或无有效内容的视频帧）。
+        \item 移除\textbf{静音片段}（音频能量低于阈值的样本）。
+        \item 过滤人脸检测失败的样本。
+    \end{itemize}
+\end{enumerate}

@@ -1,0 +1,60 @@
+% 4_technical_route.tex - 核心技术路线
+
+\section{核心技术路线}
+
+\subsection{总体架构}
+本研究采用\textbf{三塔架构 (Three-Tower Architecture)} 进行多模态特征提取，并通过\textbf{Early Fusion（特征级拼接）}实现模态融合。该方案的核心优势在于：结构简洁、易于调试、显存占用可控，适合在有限硬件条件下完成毕业设计。
+
+整体流程为：\textbf{三路独立编码} $\rightarrow$ \textbf{特征拼接} $\rightarrow$ \textbf{全连接分类}。
+
+\subsection{文本塔 (Text Tower)}
+\begin{itemize}
+    \item \textbf{模型选择}：采用 \texttt{bert-base-chinese} 预训练模型（HuggingFace 官方发布）。
+    \item \textbf{特征提取}：将输入文本经 Tokenizer 编码后送入 BERT，取最后一层的 \textbf{[CLS] token} 作为句级语义表示。
+    \item \textbf{输出维度}：$\mathbf{768}$ 维向量。
+\end{itemize}
+
+\subsection{视觉塔 (Visual Tower)}
+\begin{itemize}
+    \item \textbf{人脸预处理}：使用 \textbf{MTCNN} 进行人脸检测，提取\textbf{5点关键点}（双眼中心、鼻尖、左右嘴角），通过仿射变换完成人脸对齐，输出 $224 \times 224$ 归一化图像。
+    \item \textbf{特征提取}：将对齐后的人脸帧序列送入预训练的 \textbf{ResNet-50}（在 ImageNet 上预训练），提取每帧的 $2048$ 维特征向量。
+    \item \textbf{时序聚合}：对视频片段内的所有帧特征进行\textbf{时序均值池化 (Temporal Mean Pooling)}：
+    \begin{equation}
+        \mathbf{V} = \frac{1}{N} \sum_{i=1}^{N} \mathbf{v}_i
+    \end{equation}
+    其中 $N$ 为帧数，$\mathbf{v}_i$ 为第 $i$ 帧的 ResNet 输出。
+    \item \textbf{输出维度}：$\mathbf{2048}$ 维向量。
+\end{itemize}
+
+\subsection{声学塔 (Acoustic Tower)}
+\begin{itemize}
+    \item \textbf{特征提取}：使用 \textbf{OpenSMILE} 工具包提取底层声学特征，包括：
+    \begin{itemize}
+        \item \textbf{MFCC}（梅尔频率倒谱系数）：13维 + $\Delta$ + $\Delta\Delta$ = 39维
+        \item \textbf{Chroma}（色度特征）：12维
+        \item \textbf{Energy}（能量）、\textbf{Pitch}（基频）等韵律特征
+    \end{itemize}
+    \item \textbf{时序编码}：将帧级声学特征送入 \textbf{Conv1D} 卷积层进行局部时序建模。
+    \item \textbf{聚合策略}：经卷积后进行 \textbf{MeanPool}，输出固定长度向量。
+    \item \textbf{输出维度}：$\mathbf{256}$ 维向量。
+\end{itemize}
+
+\subsection{融合与分类}
+\begin{itemize}
+    \item \textbf{特征拼接}：将三塔输出直接拼接 (Concatenation)：
+    \begin{equation}
+        \mathbf{F} = [\mathbf{T}; \mathbf{V}; \mathbf{A}] \in \mathbb{R}^{768+2048+256} = \mathbb{R}^{3072}
+    \end{equation}
+    \item \textbf{正则化}：引入 \textbf{Dropout($p=0.3$)} 防止过拟合。
+    \item \textbf{分类层}：拼接特征经全连接层 (FC) 映射至类别数，输出层使用 \textbf{Softmax} 激活。
+    \item \textbf{损失函数}：\textbf{CrossEntropyLoss}，结合 Class Weights 处理类别不平衡。
+\end{itemize}
+
+\subsection{硬件可行性与显存优化}
+本项目的硬件环境为 \textbf{RTX 3060 Laptop GPU (6GB 显存)}，为确保模型可在该配置下顺利训练，采用以下优化策略：
+
+\begin{enumerate}
+    \item \textbf{梯度累积 (Gradient Accumulation)}：将大 Batch 拆分为多个小 Batch，累积梯度后统一更新参数，等效增大批量而不增加显存峰值。
+    \item \textbf{冻结骨干网络 (Freeze Backbone)}：冻结 BERT 和 ResNet 的底层参数，仅微调顶层，大幅减少可训练参数量与显存占用。
+    \item \textbf{混合精度训练 (FP16)}：使用 PyTorch AMP 自动混合精度，在保持精度的前提下降低显存消耗约 30\%--50\%。
+\end{enumerate}

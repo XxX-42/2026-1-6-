@@ -1,0 +1,46 @@
+% 5_experiment.tex - 实验设计与预期产出
+
+\section{实验设计与预期产出}
+
+\subsection{消融实验设计}
+为验证各模态的独立贡献及多模态融合的有效性，本项目设计以下\textbf{消融实验 (Ablation Study)}：
+
+\begin{table}[htbp]
+\centering
+\caption{消融实验配置}
+\begin{tabular}{llc}
+\toprule
+\textbf{实验组} & \textbf{模态组合} & \textbf{验证目标} \\
+\midrule
+Baseline-T & 仅文本 (Text) & 文本模态独立性能 \\
+Baseline-V & 仅视觉 (Visual) & 视觉模态独立性能 \\
+Baseline-A & 仅声学 (Acoustic) & 声学模态独立性能 \\
+\midrule
+Fusion-TV & 文本 + 视觉 & T-V 互补性验证 \\
+Fusion-TA & 文本 + 声学 & T-A 互补性验证 \\
+Fusion-VA & 视觉 + 声学 & V-A 互补性验证 \\
+\midrule
+Full Model & 文本 + 视觉 + 声学 & 三模态融合最优性能 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{评估指标}
+\begin{itemize}
+    \item \textbf{Accuracy (准确率)}：正确分类样本占总样本的比例，衡量整体分类性能。
+    \item \textbf{Weighted F1 (加权 F1 值)}：考虑类别不平衡的综合指标，对各类别的 F1 按样本数加权平均，更适合非平衡数据集评估。
+\end{itemize}
+
+\subsection{预期实验结论}
+\begin{enumerate}
+    \item 单模态中，\textbf{文本模态 (Baseline-T)} 预期表现最优，因语义信息最为直接。
+    \item 双模态融合相比单模态有显著提升，验证模态间的\textbf{互补性假设}。
+    \item \textbf{Full Model（三模态融合）}预期达到最优性能，证明三通道信息的综合价值。
+\end{enumerate}
+
+\subsection{预期产出}
+\begin{enumerate}
+    \item \textbf{工程代码}：基于 PyTorch 的完整多模态情感分析系统源码，包含数据预处理、模型定义、训练与评估脚本。
+    \item \textbf{可视化演示}：提供简易 Demo 界面，支持输入视频片段并输出情感预测结果。
+    \item \textbf{学术论文}：包含消融实验分析、性能对比及结论讨论的本科毕业设计论文。
+\end{enumerate}

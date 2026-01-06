@@ -1,0 +1,25 @@
+% 2_research_status.tex - 国内外研究现状
+
+\section{国内外研究现状}
+
+\subsection{技术发展历程}
+多模态情感分析的研究经历了三个主要阶段：
+
+\begin{enumerate}
+    \item \textbf{早期拼接阶段 (2015前)}：采用\textbf{Early Fusion}（特征级拼接）或\textbf{Late Fusion}（决策级融合）的简单策略，将各模态特征直接串联后送入分类器。该方法实现简单，但忽略了模态间的交互关系。
+    
+    \item \textbf{中期注意力阶段 (2015-2019)}：引入\textbf{双流网络}与\textbf{注意力机制}，允许模型动态学习模态权重。代表性工作如 TFN (Tensor Fusion Network) 和 MFN (Memory Fusion Network) 尝试捕捉模态间的高阶交互。
+    
+    \item \textbf{当前大模型阶段 (2020至今)}：基于\textbf{Transformer}架构的预训练模型成为主流。\textbf{CLIP} (OpenAI) 实现了视觉-语言的跨模态对齐；\textbf{ViT} (Vision Transformer) 将图像建模为序列；\textbf{BERT}及其变体（如中文 RoBERTa）在文本理解上取得突破。这些预训练模型为下游多模态任务提供了强大的特征提取能力。
+\end{enumerate}
+
+\subsection{当前主要挑战}
+尽管技术快速发展，多模态情感分析仍面临以下核心难题：
+
+\begin{itemize}
+    \item \textbf{模态对齐困难 (Alignment)}：文本、视频、音频的时序粒度不同（词级 vs 帧级 vs 音素级），如何实现精准的跨模态时序对齐仍是开放问题。
+    \item \textbf{异构特征融合}：不同模态的特征空间差异巨大（如 BERT 输出 768 维语义向量，ResNet 输出 2048 维视觉特征），简单拼接可能导致维度爆炸或信息稀释。
+    \item \textbf{中文数据集稀缺}：现有主流数据集（如 CMU-MOSI, CMU-MOSEI）以英文为主，\textbf{高质量中文多模态情感数据集极度匮乏}，这直接制约了中文场景下的模型训练与评估。
+\end{itemize}
+
+上述挑战凸显了选择合适中文数据集的重要性，这也是本项目选用 \textbf{CH-SIMS} 数据集的核心动因。

@@ -1,0 +1,56 @@
+% body.tex
+% 再次强制正文区域参数（防止被某些环境重置）
+\zihao{-5}
+\setlength{\baselineskip}{16pt}
+
+\section{课题背景与意义}
+\subsection{研究背景}
+随着短视频平台用户规模突破10亿，互联网数据呈现高度多模态化。传统的单模态情感分析方法面临巨大瓶颈：纯文本难以准确识别反讽、双关等复杂情感；单纯的视觉或声学模型在面对信息缺失时鲁棒性较差。特别是在中文语境下，表情包与文字含义的矛盾（如"笑哭"表情）常导致单一信息源误判。
+
+\subsection{研究意义}
+本课题旨在通过融合文本、视觉、声学三通道信息，利用其互补性消除歧义，提升模型在噪声干扰下的鲁棒性。研究成果可广泛应用于舆情监控、智能客服及人机交互领域，具有重要的工程实践价值。
+
+\section{国内外研究现状}
+多模态情感分析经历了从早期的简单拼接（Early/Late Fusion）到中期基于双流网络与注意力机制的发展历程。当前主流方法已转向基于 Transformer 和大模型（如 CLIP, ViT, BERT）的架构。然而，现阶段仍面临模态间语义对齐困难、异构特征融合效率低以及高质量中文多模态数据集稀缺等挑战。
+
+\section{数据集介绍 (CH-SIMS)}
+本项目选用 CH-SIMS 数据集，这是首个包含细粒度标注的中文多模态情感数据集。数据集来源于非受控环境下的影视片段，包含 2,281 个样本（训练集 1,368 / 验证集 456 / 测试集 457）。其非平衡性和多模态独立标注特性为模型训练提供了真实的挑战场景。
+
+\section{核心技术路线}
+本研究采用"三塔架构"进行特征提取与融合：
+\begin{enumerate}
+    \item \textbf{文本塔}：基于 \texttt{bert-base-chinese} 预训练模型，提取 [CLS] token 的 768 维语义向量。
+    \item \textbf{视觉塔}：利用 MTCNN 进行关键点定位与人脸对齐，输入 ResNet-50 提取 2048 维视觉特征，通过时序均值池化聚合帧特征。
+    \item \textbf{声学塔}：使用 OpenSMILE 提取 MFCC、Chroma 等声学特征，经由 Conv1D 编码为 256 维向量。
+\end{enumerate}
+最终通过 Early Fusion 拼接特征向量 ($3072$ 维)，送入全连接层进行分类，并引入 Dropout ($p=0.3$) 与 L2 正则化以防止过拟合。
+
+\section{实验设计与预期产出}
+\subsection{消融实验设计}
+为验证模态互补性，将设计以下对比实验：
+\begin{itemize}
+    \item \textbf{基线组}：单模态 (T/V/A) 独立训练。
+    \item \textbf{双模态组}：Fusion-TV / Fusion-TA / Fusion-VA，验证两两互补性。
+    \item \textbf{全模态组}：Full Model，验证三模态融合的最优性能。
+\end{itemize}
+
+\subsection{预期产出}
+\begin{enumerate}
+    \item 基于 PyTorch 的完整多模态情感分析系统源码。
+    \item 可视化演示界面。
+    \item 包含消融实验分析的毕业设计论文。
+\end{enumerate}
+
+\section{进度安排}
+\begin{itemize}
+    \item \textbf{1-2月}：完成 CH-SIMS 数据集清洗、预处理及 MTCNN 人脸对齐。
+    \item \textbf{3月}：搭建三塔架构模型，完成初步训练与 Debug。
+    \item \textbf{4月}：进行超参数调优与消融实验，整理实验数据。
+    \item \textbf{5月}：撰写论文，准备答辩演示材料。
+\end{itemize}
+
+% 参考文献
+\begin{thebibliography}{99}
+\bibitem{chsims} Yu, W., et al. "CH-SIMS: A Chinese Multimodal Sentiment Analysis Dataset." ACL 2020.
+\bibitem{bert} Devlin, J., et al. "BERT: Pre-training of Deep Bidirectional Transformers." NAACL 2019.
+\end{thebibliography}
