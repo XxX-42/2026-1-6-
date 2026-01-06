@@ -1,36 +1,37 @@
-% cover.tex
+% cover.tex - 封面
 \begin{titlepage}
-    \vspace*{2cm}
+    \vspace*{1cm}
     \begin{center}
-        % 校名（如果没有图片，用文字代替，建议去学校官网下个矢量Logo）
-        {\zihao{1}\heiti 成都信息工程大学} \\ 
+        % 校徽 - 宽度适中
+        \includegraphics[width=10cm]{D:/Documents/Codes/2025_Cuit_chinese-multimodal-emotion/2025_Cuit_chinese-multimodal-emotion_ppt&paper/image copy.png} \\
         \vspace{1cm}
-        {\zihao{2}\songti \textbf{本科毕业设计开题报告}}
         
+        % 一级标题
+        {\songti \zihao{2} 本科毕业论文（设计）} \\
+        \vspace{1.5cm}
+        
+        % 二级标题 - 加粗，大号黑体，字间距拉大
+        {\heiti \zihao{1} \textbf{开\quad 题\quad 报\quad 告}} \\
         \vspace{3cm}
         
-        % 题目
-        {\zihao{3}\heiti 题目：基于多模态情感分析的研究和应用}
-        
-        \vspace{4cm}
-        
-        % 信息栏 - 使用宽表格保持对齐
-        \zihao{4}\songti
-        \begin{tabular}{rl}
-            \textbf{学\quad\quad 院：} & 计算机学院 \\
-            \vspace{0.5cm} \\
-            \textbf{专\quad\quad 业：} & 计算机科学与技术 \\ % 假设专业，需确认
-            \vspace{0.5cm} \\
-            \textbf{学生姓名：} & 梁嘉轩 \\
-            \vspace{0.5cm} \\
-            \textbf{指导教师：} & 冯翱 \\
-            \vspace{0.5cm} \\
-            \textbf{日\quad\quad 期：} & 2026年1月5日 \\
+        % 信息栏
+        \zihao{3} \songti
+        \renewcommand{\arraystretch}{1.6} % 稍微拉大行距
+        \begin{tabular}{lc}
+             % 使用 \makebox[width][s] 实现分散对齐
+             % 这里的宽度 7em 足以容纳 "毕业设计题目" (6字) 并让短词分散对齐
+            \makebox[7em][s]{毕业设计题目} & \underline{\makebox[18em][c]{基于多模态情感分析的研究和应用}} \\
+            \makebox[7em][s]{学生姓名} & \underline{\makebox[18em][c]{梁嘉轩}} \\
+            \makebox[7em][s]{学号} & \underline{\makebox[18em][c]{2022053029}} \\
+            \makebox[7em][s]{所在学院} & \underline{\makebox[18em][c]{计算机学院}} \\
+            \makebox[7em][s]{专业} & \underline{\makebox[18em][c]{计算机科学与技术}} \\
+            \makebox[7em][s]{班级} & \underline{\makebox[18em][c]{计算机科学与技术221}} \\
+            \makebox[7em][s]{指导教师} & \underline{\makebox[18em][c]{冯翱}} \\
         \end{tabular}
     \end{center}
     
     \vfill
-    % \begin{center}
-    %     \zihao{-5} *本报告排版严格遵循小五号字及16磅行距标准
-    % \end{center}
+    \begin{center}
+        {\songti \zihao{3} 2026 年 1 月 \\ 成都信息工程大学 计算机学院}
+    \end{center}
 \end{titlepage}

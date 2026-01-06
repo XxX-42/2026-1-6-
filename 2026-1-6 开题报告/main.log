@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.11.4)  6 JAN 2026 10:25
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.11.4)  6 JAN 2026 11:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -777,32 +777,10 @@ LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 (./cover.tex
-
-Package fontspec Info: 
-(fontspec)             Could not resolve font "SimHei/BI" (it probably doesn't
-(fontspec)             exist).
-
-
-Package fontspec Info: 
-(fontspec)             Could not resolve font "SimHei/B" (it probably doesn't
-(fontspec)             exist).
-
-
-Package fontspec Info: 
-(fontspec)             Could not resolve font "SimHei/I" (it probably doesn't
-(fontspec)             exist).
-
-
-Package fontspec Info: 
-(fontspec)             Font family 'SimHei(0)' created for font 'SimHei' with
-(fontspec)             options [Script={CJK}].
-(fontspec)              
-(fontspec)              This font family consists of the following NFSS
-(fontspec)             series/shapes:
-(fontspec)              
-(fontspec)             - 'normal' (m/n) with NFSS spec.:
-(fontspec)             <->"SimHei/OT:script=hani;language=dflt;"
-
+File: D:/Documents/Codes/2025_Cuit_chinese-multimodal-emotion/2025_Cuit_chinese
+-multimodal-emotion_ppt&paper/image copy.png Graphic file (type bmp)
+<D:/Documents/Codes/2025_Cuit_chinese-multimodal-emotion/2025_Cuit_chinese-mult
+imodal-emotion_ppt&paper/image copy.png>
 
 Package fontspec Info: 
 (fontspec)             Could not resolve font "SimSun/BI" (it probably doesn't
@@ -830,22 +808,82 @@ Package fontspec Info:
 (fontspec)             <->"SimSun/OT:script=hani;language=dflt;"
 
 
+Package fontspec Info: 
+(fontspec)             Could not resolve font "SimHei/BI" (it probably doesn't
+(fontspec)             exist).
 
-LaTeX Font Warning: Font shape `TU/SimSun(1)/b/n' undefined
-(Font)              using `TU/SimSun(1)/m/n' instead on input line 8.
+
+Package fontspec Info: 
+(fontspec)             Could not resolve font "SimHei/B" (it probably doesn't
+(fontspec)             exist).
+
+
+Package fontspec Info: 
+(fontspec)             Could not resolve font "SimHei/I" (it probably doesn't
+(fontspec)             exist).
+
+
+Package fontspec Info: 
+(fontspec)             Font family 'SimHei(0)' created for font 'SimHei' with
+(fontspec)             options [Script={CJK}].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->"SimHei/OT:script=hani;language=dflt;"
+
+
+
+LaTeX Font Warning: Font shape `TU/SimHei(0)/b/n' undefined
+(Font)              using `TU/SimHei(0)/m/n' instead on input line 14.
+
+
+LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <16.06> not available
+(Font)              size <17.28> substituted on input line 20.
 
 
 LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <10.53937> not available
-(Font)              size <10.95> substituted on input line 19.
+(Font)              size <10.95> substituted on input line 20.
+
+
+Underfull \hbox (badness 5756) detected at line 23
+\TU/SimSun(1)/m/n/16.06 毕 业 设 计 题 目
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 24
+\TU/SimSun(1)/m/n/16.06 学 生 姓 名
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 25
+\TU/SimSun(1)/m/n/16.06 学 号
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 26
+\TU/SimSun(1)/m/n/16.06 所 在 学 院
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 27
+\TU/SimSun(1)/m/n/16.06 专 业
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 28
+\TU/SimSun(1)/m/n/16.06 班 级
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 29
+\TU/SimSun(1)/m/n/16.06 指 导 教 师
+ []
 
 [1
 
-])
-
-LaTeX Font Warning: Font shape `TU/SimHei(0)/b/n' undefined
-(Font)              using `TU/SimHei(0)/m/n' instead on input line 39.
-
-(./main.toc)
+]) (./main.toc)
 \tf@toc=\write3
 \openout3 = `main.toc'.
 
@@ -857,6 +895,13 @@ able
 Missing character: There is no 😂 (U+1F602) in font [lmroman9-regular]:mapping=t
 ex-text;!
 ) (./2_research_status.tex) (./3_dataset.tex [2]) (./4_technical_route.tex
+Missing character: There is no ❄ (U+2744) in font [lmroman9-regular]:mapping=te
+x-text;!
+Missing character: There is no ️ (U+FE0F) in font SimSun/OT:script=hani;languag
+e=dflt;!
+File: Snipaste_2026-01-06_10-59-47.png Graphic file (type bmp)
+<Snipaste_2026-01-06_10-59-47.png>
+[3]
 
 Package fontspec Info: 
 (fontspec)             Could not resolve font "FangSong/BI" (it probably
@@ -873,7 +918,7 @@ Package fontspec Info:
 (fontspec)             doesn't exist).
 
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10.53937> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 13.
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 20.
 
 Package fontspec Info: 
 (fontspec)             Font family 'FangSong(0)' created for font 'FangSong'
@@ -886,11 +931,14 @@ Package fontspec Info:
 (fontspec)             <->"FangSong/OT:script=hani;language=dflt;"
 
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <9.03374> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 13.
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 20.
 
-[3]
+Missing character: There is no ❄ (U+2744) in font [lmroman9-regular]:mapping=te
+x-text;!
+Missing character: There is no ️ (U+FE0F) in font SimSun/OT:script=hani;languag
+e=dflt;!
 ! Undefined control sequence.
-l.23 ...athbf{v}_i, \quad \mathbf{v}_i \in \mathbb
+l.30 ...athbf{v}_i, \quad \mathbf{v}_i \in \mathbb
                                                   {R}^{2048}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -898,8 +946,12 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
+Missing character: There is no ❄ (U+2744) in font [lmroman9-regular]:mapping=te
+x-text;!
+Missing character: There is no ️ (U+FE0F) in font SimSun/OT:script=hani;languag
+e=dflt;!
 ! Undefined control sequence.
-l.39 ...bf{T}; \mathbf{V}; \mathbf{A}] \in \mathbb
+l.44 ...bf{T}; \mathbf{V}; \mathbf{A}] \in \mathbb
                                                   {R}^{3072}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -907,8 +959,13 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-) (./5_experiment.tex [4]) (./6_schedule.tex [5]) (./references.tex [6])
-[7] (./main.aux)
+[4] [5]
+Missing character: There is no ❄ (U+2744) in font [lmroman9-regular]:mapping=te
+x-text;!
+Missing character: There is no ️ (U+FE0F) in font SimSun/OT:script=hani;languag
+e=dflt;!
+) (./5_experiment.tex [6]) (./6_schedule.tex) (./references.tex [7]) [8]
+(./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2022/07/14>
@@ -916,19 +973,19 @@ L3 programming layer <2022/07/14>
 
 
 LaTeX Font Warning: Size substitutions with differences
-(Font)              up to 0.41063pt have occurred.
+(Font)              up to 1.22pt have occurred.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 9429 strings out of 468219
- 254836 string characters out of 5437898
- 687014 words of memory out of 5000000
- 37918 multiletter control sequences out of 15000+600000
- 635992 words of font info for 124 fonts, out of 8000000 for 9000
+ 9440 strings out of 468219
+ 256032 string characters out of 5437898
+ 687045 words of memory out of 5000000
+ 37932 multiletter control sequences out of 15000+600000
+ 635930 words of font info for 117 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 93i,8n,111p,1169b,390s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 93i,10n,111p,1169b,356s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.pdf (8 pages).
+Output written on main.pdf (9 pages).
