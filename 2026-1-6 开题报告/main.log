@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.11.4)  6 JAN 2026 10:01
+This is XeTeX, Version 3.141592653-2.6-0.999997 (TeX Live 2025) (preloaded format=xelatex 2025.11.4)  6 JAN 2026 10:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -854,9 +854,9 @@ able
 (Font)              Font shape `TU/SimSun(0)/m/it' tried instead on input line 
 40.
  [1] (./1_background.tex
-Missing character: There is no 😂 (U+1F602) in font [lmroman9-bold]:mapping=tex-
-text;!
-) (./2_research_status.tex [2]
+Missing character: There is no 😂 (U+1F602) in font [lmroman9-regular]:mapping=t
+ex-text;!
+) (./2_research_status.tex) (./3_dataset.tex [2]) (./4_technical_route.tex
 
 Package fontspec Info: 
 (fontspec)             Could not resolve font "FangSong/BI" (it probably
@@ -872,6 +872,8 @@ Package fontspec Info:
 (fontspec)             Could not resolve font "FangSong/I" (it probably
 (fontspec)             doesn't exist).
 
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10.53937> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 13.
 
 Package fontspec Info: 
 (fontspec)             Font family 'FangSong(0)' created for font 'FangSong'
@@ -883,14 +885,13 @@ Package fontspec Info:
 (fontspec)             - 'normal' (m/n) with NFSS spec.:
 (fontspec)             <->"FangSong/OT:script=hani;language=dflt;"
 
- [3]) (./3_dataset.tex [4])
-(./4_technical_route.tex
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <9.03374> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 24.
- [5]
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 13.
+
+[3]
 ! Undefined control sequence.
-l.36 $$\mathbf{T} \in \mathbb
-                             {R}^{768}$$
+l.23 ...athbf{v}_i, \quad \mathbf{v}_i \in \mathbb
+                                                  {R}^{2048}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
 misspelled it (e.g., `\hobx'), type `I' and the correct
@@ -898,44 +899,7 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
-l.67 其中 $\mathbf{v}_i \in \mathbb
-                                 {R}^{2048}$ 为第 $i$ 帧的 ResNet 输出。
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.78 $$\mathbf{V} \in \mathbb
-                             {R}^{2048}$$
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-[6]
-! Undefined control sequence.
-l.102 $$\mathbf{A} \in \mathbb
-                              {R}^{256}$$
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.111 ...f{T}; \mathbf{V}; \mathbf{A}] \in \mathbb
-                                                  {R}^{768 + 2048 + 256} = \...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.111 ...n \mathbb{R}^{768 + 2048 + 256} = \mathbb
+l.39 ...bf{T}; \mathbf{V}; \mathbf{A}] \in \mathbb
                                                   {R}^{3072}
 The control sequence at the end of the top line
 of your error message was never \def'ed. If you have
@@ -943,26 +907,8 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-! Undefined control sequence.
-l.118     \item \textbf{全连接层}：$\text{FC}: \mathbb
-                                                 {R}^{3072} \rightarrow \mat...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.118 ...C}: \mathbb{R}^{3072} \rightarrow \mathbb
-                                                  {R}^{C}$，其中 $C$ 为类别数。
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-[7]) (./5_experiment.tex [8]) (./6_schedule.tex [9] [10]) (./references.tex)
-[11] (./main.aux)
+) (./5_experiment.tex [4]) (./6_schedule.tex [5]) (./references.tex [6])
+[7] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2022/07/14>
@@ -977,12 +923,12 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 9449 strings out of 468219
- 255728 string characters out of 5437898
- 680016 words of memory out of 5000000
- 37935 multiletter control sequences out of 15000+600000
- 636000 words of font info for 125 fonts, out of 8000000 for 9000
+ 9429 strings out of 468219
+ 254836 string characters out of 5437898
+ 687014 words of memory out of 5000000
+ 37918 multiletter control sequences out of 15000+600000
+ 635992 words of font info for 124 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 93i,11n,111p,1169b,451s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 93i,8n,111p,1169b,390s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on main.pdf (12 pages).
+Output written on main.pdf (8 pages).

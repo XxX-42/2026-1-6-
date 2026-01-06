@@ -2,159 +2,46 @@
 
 \section{核心技术路线}
 
-\subsection{总体架构设计}
+\subsection{架构设计与资源约束}
 
-本研究采用\textbf{三塔架构 (Three-Tower Architecture)} 进行多模态特征提取，并通过\textbf{Early Fusion（特征级拼接）}实现模态融合。该方案遵循"分而治之"的设计哲学：
+本研究在设计模型架构时，充分考虑了硬件环境的限制，即需要在 \textbf{RTX 3060 Laptop（6GB 显存）} 上完成模型的训练与推理。这意味着高计算复杂度和高显存占用的模型（如大规模张量融合网络、端到端微调的跨模态 Transformer）难以直接部署。
 
-\begin{quote}
-\textbf{设计理念}：三路独立编码 $\rightarrow$ 特征拼接 $\rightarrow$ 联合分类
-\end{quote}
+鉴于此，我们采用了工程上更为可行的\textbf{三塔架构（Three-Tower Architecture）结合早期融合（Early Fusion）}方案。在该架构中，文本、视觉、声学三个模态分别通过独立的编码器提取特征，随后将特征向量进行拼接，并送入共享的分类器进行预测。这种设计在保证基本多模态交互能力的同时，显著降低了显存占用和计算开销，符合本科毕业设计的实际硬件条件。
 
-相比复杂的张量融合或跨模态注意力机制，Early Fusion 具有以下\textbf{工程优势}：
-\begin{itemize}
-    \item \textbf{结构简洁}：各模态编码器独立，易于调试与维护。
-    \item \textbf{显存可控}：无需存储高阶交互张量，适合在消费级 GPU 上运行。
-    \item \textbf{可解释性}：通过消融实验可清晰量化各模态的贡献。
-\end{itemize}
+\subsection{文本塔设计}
 
-\subsection{文本塔 (Text Tower)}
+在文本特征提取方面，我们利用了 HuggingFace 提供的 \textbf{\texttt{bert-base-chinese}} 预训练模型。该模型基于大规模中文语料训练，具备强大的语义理解能力。
 
-\subsubsection{模型选择}
+具体处理流程如下：首先利用 BertTokenizer 对输入文本进行分词，并添加 [CLS] 与 [SEP] 标记；随后将序列输入 BERT 的 12 层 Transformer 编码器。最终，我们选取最后一层的 \textbf{[CLS] 向量}（768 维）作为句子的全局语义表征。由于 [CLS] 标记在预训练阶段已被专门训练用于聚合序列信息，因此直接作为句子表示是标准且有效的做法。
 
-采用 \textbf{\texttt{bert-base-chinese}} 预训练模型（由 Google 发布，HuggingFace 托管），该模型在大规模中文语料上进行了 Masked Language Model 预训练，具备强大的中文语义理解能力。
+\subsection{视觉塔设计与时序聚合}
 
-\subsubsection{特征提取流程}
+视觉模态的处理对显存资源的消耗最为显著。ResNet-50 提取的每一帧特征维度为 2048。如果采用 LSTM 或 GRU 等循环神经网络对帧序列进行时序建模，其梯度反向传播过程中的显存占用极易超出 6GB 的限制。
 
-\begin{enumerate}
-    \item 将输入文本经 \textbf{BertTokenizer} 分词，添加 [CLS] 和 [SEP] 特殊标记。
-    \item 将 Token 序列送入 BERT 编码器，经过 12 层 Transformer Block。
-    \item 取最后一层的 \textbf{[CLS] token 隐藏状态}作为句级语义表示。
-\end{enumerate}
-
-\subsubsection{输出规格}
-
-$$\mathbf{T} \in \mathbb{R}^{768}$$
-
-其中 768 为 BERT-base 的隐藏层维度。
-
-\subsection{视觉塔 (Visual Tower)}
-
-\subsubsection{人脸预处理}
-
-使用 \textbf{MTCNN} 进行人脸检测与关键点定位：
-\begin{itemize}
-    \item 检测人脸边界框 (Bounding Box)。
-    \item 提取 \textbf{5 点面部关键点}：双眼中心、鼻尖、左右嘴角。
-    \item 基于关键点进行\textbf{仿射变换}，将人脸归一化至 $224 \times 224$。
-\end{itemize}
-
-\subsubsection{特征提取}
-
-将对齐后的人脸帧序列送入预训练的 \textbf{ResNet-50} \cite{resnet}（在 ImageNet 上预训练），提取每帧的高层视觉特征：
-\begin{itemize}
-    \item 移除 ResNet 的最后全连接层，取 \textbf{AvgPool 输出}作为帧级特征。
-    \item 每帧输出 \textbf{2048 维}特征向量。
-\end{itemize}
-
-\subsubsection{时序聚合}
-
-对视频片段内的 $N$ 帧特征进行\textbf{时序均值池化 (Temporal Mean Pooling)}：
-
+为解决这一问题，我们采用了\textbf{时序均值池化（Temporal Mean Pooling）}策略。对于一个包含 $N$ 帧的视频片段，我们将所有帧的特征向量进行平均：
 \begin{equation}
-    \mathbf{V} = \frac{1}{N} \sum_{i=1}^{N} \mathbf{v}_i
+    \mathbf{V} = \frac{1}{N} \sum_{i=1}^{N} \mathbf{v}_i, \quad \mathbf{v}_i \in \mathbb{R}^{2048}
 \end{equation}
+这一操作将变长的视频序列压缩为固定的 2048 维向量，虽然在一定程度上损失了细粒度的时序动态信息，但有效地控制了显存占用和计算复杂度。
 
-其中 $\mathbf{v}_i \in \mathbb{R}^{2048}$ 为第 $i$ 帧的 ResNet 输出。
+在特征提取层面，我们选用在 ImageNet 上预训练的 \textbf{ResNet-50} 作为骨干网络。输入图像经过预处理归一化为 $224 \times 224$ 尺寸，移除全连接层后的 AvgPool 输出即为帧级特征。
 
-\textbf{设计说明}：采用均值池化而非循环网络（LSTM/GRU）的原因是：
-\begin{itemize}
-    \item \textbf{显存节约}：均值池化无可训练参数，显著降低显存占用。
-    \item \textbf{计算高效}：避免序列依赖的反向传播，加速训练。
-    \item \textbf{鲁棒性}：对帧数变化不敏感，自动适应不同长度的视频。
-\end{itemize}
+\subsection{声学塔设计}
 
-\subsubsection{输出规格}
+声学模态的处理采用 \textbf{OpenSMILE} 工具包提取底层声学特征，主要包含 13 维 MFCC（及其一阶、二阶差分）和 12 维 Chroma 特征，共计 51 维。这些特征能够有效捕捉语音中的韵律、音高和能量变化。
 
-$$\mathbf{V} \in \mathbb{R}^{2048}$$
+为了处理变长的声学特征序列，我们设计了一个轻量级的\textbf{一维卷积网络（Conv1D）}。该网络通过卷积操作捕捉局部的时序模式，并通过均值池化将其聚合为 256 维的固定长度向量。这一设计在保留关键声学线索的同时，保持了参数量的轻量化。
 
-\subsection{声学塔 (Acoustic Tower)}
+\subsection{融合策略}
 
-\subsubsection{特征提取}
-
-使用 \textbf{OpenSMILE} \cite{opensmile} 提取帧级声学特征，主要包括：
-\begin{itemize}
-    \item \textbf{MFCC}：39 维（13 维静态 + $\Delta$ + $\Delta\Delta$）
-    \item \textbf{Chroma}：12 维
-    \item \textbf{Energy / Pitch}：韵律特征
-\end{itemize}
-
-\subsubsection{时序编码}
-
-将帧级声学特征序列送入 \textbf{一维卷积网络 (Conv1D)}：
-\begin{itemize}
-    \item \textbf{Conv1D}：提取局部时序模式，捕捉语音中的短时情感波动。
-    \item \textbf{ReLU 激活}：引入非线性。
-    \item \textbf{MeanPool}：对时序维度进行均值池化，输出固定长度向量。
-\end{itemize}
-
-\subsubsection{输出规格}
-
-$$\mathbf{A} \in \mathbb{R}^{256}$$
-
-\subsection{模态融合与分类}
-
-\subsubsection{Early Fusion 拼接}
-
-将三塔输出在特征维度上\textbf{直接拼接 (Concatenation)}：
-
+在获得文本 $\mathbf{T}$、视觉 $\mathbf{V}$ 和声学 $\mathbf{A}$ 三个特征向量后，我们采用\textbf{直接拼接（Concatenation）}的方式进行融合：
 \begin{equation}
-    \mathbf{F} = [\mathbf{T}; \mathbf{V}; \mathbf{A}] \in \mathbb{R}^{768 + 2048 + 256} = \mathbb{R}^{3072}
+    \mathbf{F} = [\mathbf{T}; \mathbf{V}; \mathbf{A}] \in \mathbb{R}^{3072}
 \end{equation}
+拼接后的向量 $\mathbf{F}$ 经过 Dropout ($p=0.3$) 正则化处理，输入全连接层映射至情感类别空间，最后通过 Softmax 函数输出预测概率。
 
-\subsubsection{分类头}
+尽管拼接策略相对简单，但在计算资源受限的场景下，它是平衡性能与效率的有效选择。
 
-\begin{enumerate}
-    \item \textbf{Dropout}：$p = 0.3$，随机丢弃神经元以防止过拟合。
-    \item \textbf{全连接层}：$\text{FC}: \mathbb{R}^{3072} \rightarrow \mathbb{R}^{C}$，其中 $C$ 为类别数。
-    \item \textbf{Softmax}：输出各类别的概率分布。
-\end{enumerate}
+\subsection{显存优化策略}
 
-\subsubsection{损失函数}
-
-采用\textbf{加权交叉熵损失 (Weighted Cross-Entropy)}：
-
-\begin{equation}
-    \mathcal{L} = -\sum_{c=1}^{C} w_c \cdot y_c \log(\hat{y}_c)
-\end{equation}
-
-其中 $w_c$ 为类别权重，用于缓解数据不平衡问题。
-
-\subsection{硬件适配与显存优化}
-
-本项目的开发环境为 \textbf{RTX 3060 Laptop GPU (6GB 显存)}，为确保模型可在该配置下顺利训练，采用以下\textbf{轻量化策略}：
-
-\subsubsection{梯度累积 (Gradient Accumulation)}
-
-将逻辑 Batch Size 拆分为多个小批次：
-\begin{itemize}
-    \item 设物理 Batch Size = 4，累积步数 = 8。
-    \item 等效 Batch Size = $4 \times 8 = 32$。
-    \item 每 8 步执行一次参数更新，显存峰值仅需容纳 4 个样本。
-\end{itemize}
-
-\subsubsection{冻结骨干网络 (Freeze Backbone)}
-
-\begin{itemize}
-    \item \textbf{第一阶段}：冻结 BERT 和 ResNet 的全部参数，仅训练分类头与声学塔。
-    \item \textbf{第二阶段}：解冻顶层（如 BERT 最后 2 层），进行端到端微调。
-\end{itemize}
-
-该策略可将可训练参数量从约 1.5 亿降至约 500 万，显存占用降低 70\% 以上。
-
-\subsubsection{混合精度训练 (FP16)}
-
-使用 PyTorch AMP (Automatic Mixed Precision)：
-\begin{itemize}
-    \item 前向传播使用 FP16，反向传播自动缩放梯度。
-    \item 在保持训练精度的前提下，显存消耗降低约 30\%--50\%。
-\end{itemize}
+为了在 6GB 显存环境下顺利训练 BERT 和 ResNet 主干网络，我们制定了一套层层递进的资源适配方案。面对 BERT 庞大的参数量，我们并未选择全量微调，而是实施了\textbf{冻结骨干网络（Freeze Backbone）}策略，即在训练初期锁定 BERT 和 ResNet 的参数，仅开放分类头和声学网络的梯度更新，待模型收敛后再解冻顶层微调，从而大幅降低显存峰值。在此基础上，为了突破物理显存对 Batch Size 的限制，\textbf{梯度累积（Gradient Accumulation）}技术被应用于训练循环中；该技术通过累积多次前向传播的梯度（例如物理 Batch Size 为 4，累积 8 次）再执行一次参数更新，等效实现了大批量训练的效果。同时，为了进一步压榨硬件性能，\textbf{混合精度训练（FP16）}借助 PyTorch 的 AMP 模块被引入全流程，通过在计算中使用半精度浮点数，不仅显著降低了显存占用，更在保证收敛精度的前提下大幅提升了训练速度。

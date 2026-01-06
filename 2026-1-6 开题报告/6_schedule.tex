@@ -2,66 +2,12 @@
 
 \section{进度安排}
 
-本毕业设计预计于 2026 年 1 月至 5 月完成，具体进度安排如下：
+本毕业设计计划于 2026 年 1 月至 5 月期间完成，整体进度安排紧凑且目标明确。
 
-\begin{table}[htbp]
-\centering
-\caption{毕业设计进度计划}
-\begin{tabular}{cll}
-\toprule
-\textbf{阶段} & \textbf{时间} & \textbf{主要任务} \\
-\midrule
-\multirow{4}{*}{\textbf{数据准备}} & \multirow{4}{*}{1--2月} & 
-\begin{minipage}[t]{0.6\textwidth}
-    \begin{itemize}
-        \item CH-SIMS 数据集下载与格式解析
-        \item MTCNN 人脸检测与关键点对齐跑通
-        \item 黑帧剔除、静音过滤等数据清洗
-        \item OpenSMILE 声学特征提取与归一化
-        \item 数据加载器 (DataLoader) 封装
-    \end{itemize}
-\end{minipage} \\
-\midrule
-\multirow{4}{*}{\textbf{模型搭建}} & \multirow{4}{*}{3月} & 
-\begin{minipage}[t]{0.6\textwidth}
-    \begin{itemize}
-        \item 搭建三塔架构（BERT / ResNet / Conv1D）
-        \item 实现 Early Fusion 拼接与分类头
-        \item 初步训练与 Debug，验证数据流通畅
-        \item 显存优化调试（梯度累积、Freeze Backbone）
-        \item 训练日志可视化（TensorBoard / WandB）
-    \end{itemize}
-\end{minipage} \\
-\midrule
-\multirow{3}{*}{\textbf{实验验证}} & \multirow{3}{*}{4月} & 
-\begin{minipage}[t]{0.6\textwidth}
-    \begin{itemize}
-        \item 完成 7 组消融实验（单/双/全模态）
-        \item 超参数调优（学习率、Dropout、Batch Size）
-        \item 整理实验数据，绘制对比图表
-        \item 分析各模态贡献度，验证互补性假设
-    \end{itemize}
-\end{minipage} \\
-\midrule
-\multirow{3}{*}{\textbf{论文撰写}} & \multirow{3}{*}{5月} & 
-\begin{minipage}[t]{0.6\textwidth}
-    \begin{itemize}
-        \item 撰写毕业设计论文（背景/方法/实验/结论）
-        \item 准备答辩 PPT 与可视化 Demo
-        \item 代码整理、注释完善与文档归档
-        \item 预答辩演练与修改优化
-    \end{itemize}
-\end{minipage} \\
-\bottomrule
-\end{tabular}
-\end{table}
+第一阶段为\textbf{数据准备与预处理期}（1 月至 2 月）。作为项目的基石，本阶段的核心任务是确保数据处理流程的稳健性。这包括：实现基于 MTCNN 的人脸检测与关键点定位脚本，确保在 CH-SIMS 数据集上能够稳定运行；利用 OpenSMILE 批量提取声学特征并进行标准化处理；解析官方对其文件，完成三模态数据的时序对齐。该阶段的完成标志是建立一套可复现的、无错误的预处理管线。
 
-\subsection{里程碑节点}
+第二阶段为\textbf{模型构建与基线验证期}（3 月）。工作重点将转向模型的具体实现。我们将首先构建单模态基线（特别是文本模态），验证数据流的可行性。随后，逐步接入视觉和声学模块，构建完整的三塔架构。在此期间，显存优化策略（如冻结骨干、梯度累积、混合精度训练）将是调试的重点，以确保模型能在硬件限制下正常训练。本阶段的目标是实现三模态模型的端到端训练，并观察到验证集损失的有效下降。
 
-\begin{itemize}
-    \item \textbf{2月底}：完成数据预处理管线，MTCNN + OpenSMILE 流程可复现。
-    \item \textbf{3月底}：三塔模型可在 RTX 3060 上正常训练，验证集 Loss 收敛。
-    \item \textbf{4月中旬}：完成全部 7 组消融实验，整理实验结果表格。
-    \item \textbf{5月中旬}：完成论文初稿，提交导师审阅。
-    \item \textbf{5月底}：完成论文终稿与答辩准备。
-\end{itemize}
+第三阶段为\textbf{实验与优化期}（4 月）。此阶段将集中进行系统的消融实验，验证各模态及融合策略的有效性。我们将记录并分析各实验组的 Accuracy 和 Weighted F1 指标，绘制性能对比图表。此外，如有余力，将尝试微调 BERT 更多层数等策略以探索性能上限。
+
+第四阶段为\textbf{论文撰写与答辩准备期}（5 月）。根据实验数据和研究成果，撰写学位论文，内容涵盖研究背景、方法论、实验设计及结果分析等。同时，制作答辩演示文稿（PPT）及可视化的系统演示 Demo，确保能够直观展示研究成果。最后，对项目代码进行整理和文档化，以便于后续的存档与交流。
