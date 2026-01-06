@@ -1,0 +1,16 @@
+# 数据集与预训练模型
+data/
+pretrained_models/
+checkpoints/
+
+# Python 缓存
+__pycache__/
+*.pyc
+
+# IDE 配置
+.vscode/
+.idea/
+
+# 虚拟环境
+venv/
+.conda/

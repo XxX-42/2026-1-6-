@@ -2,50 +2,66 @@
 
 \section{进度安排}
 
+本毕业设计预计于 2026 年 1 月至 5 月完成，具体进度安排如下：
+
 \begin{table}[htbp]
 \centering
 \caption{毕业设计进度计划}
-\begin{tabular}{cl}
+\begin{tabular}{cll}
 \toprule
-\textbf{时间} & \textbf{主要任务} \\
+\textbf{阶段} & \textbf{时间} & \textbf{主要任务} \\
 \midrule
-\textbf{1--2月} & 
-\begin{minipage}[t]{0.75\textwidth}
+\multirow{4}{*}{\textbf{数据准备}} & \multirow{4}{*}{1--2月} & 
+\begin{minipage}[t]{0.6\textwidth}
     \begin{itemize}
         \item CH-SIMS 数据集下载与格式解析
-        \item MTCNN 人脸检测与关键点对齐
-        \item 数据清洗（黑帧剔除、静音过滤）
-        \item OpenSMILE 声学特征提取
+        \item MTCNN 人脸检测与关键点对齐跑通
+        \item 黑帧剔除、静音过滤等数据清洗
+        \item OpenSMILE 声学特征提取与归一化
+        \item 数据加载器 (DataLoader) 封装
     \end{itemize}
 \end{minipage} \\
 \midrule
-\textbf{3月} & 
-\begin{minipage}[t]{0.75\textwidth}
+\multirow{4}{*}{\textbf{模型搭建}} & \multirow{4}{*}{3月} & 
+\begin{minipage}[t]{0.6\textwidth}
     \begin{itemize}
-        \item 搭建三塔架构模型（BERT / ResNet / Conv1D）
-        \item 实现 Early Fusion 拼接与分类层
+        \item 搭建三塔架构（BERT / ResNet / Conv1D）
+        \item 实现 Early Fusion 拼接与分类头
         \item 初步训练与 Debug，验证数据流通畅
         \item 显存优化调试（梯度累积、Freeze Backbone）
+        \item 训练日志可视化（TensorBoard / WandB）
     \end{itemize}
 \end{minipage} \\
 \midrule
-\textbf{4月} & 
-\begin{minipage}[t]{0.75\textwidth}
+\multirow{3}{*}{\textbf{实验验证}} & \multirow{3}{*}{4月} & 
+\begin{minipage}[t]{0.6\textwidth}
     \begin{itemize}
-        \item 完成 7 组消融实验（单模态 / 双模态 / 全模态）
+        \item 完成 7 组消融实验（单/双/全模态）
         \item 超参数调优（学习率、Dropout、Batch Size）
         \item 整理实验数据，绘制对比图表
+        \item 分析各模态贡献度，验证互补性假设
     \end{itemize}
 \end{minipage} \\
 \midrule
-\textbf{5月} & 
-\begin{minipage}[t]{0.75\textwidth}
+\multirow{3}{*}{\textbf{论文撰写}} & \multirow{3}{*}{5月} & 
+\begin{minipage}[t]{0.6\textwidth}
     \begin{itemize}
-        \item 撰写毕业设计论文
-        \item 准备答辩 PPT 与演示 Demo
-        \item 代码整理与文档归档
+        \item 撰写毕业设计论文（背景/方法/实验/结论）
+        \item 准备答辩 PPT 与可视化 Demo
+        \item 代码整理、注释完善与文档归档
+        \item 预答辩演练与修改优化
     \end{itemize}
 \end{minipage} \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\subsection{里程碑节点}
+
+\begin{itemize}
+    \item \textbf{2月底}：完成数据预处理管线，MTCNN + OpenSMILE 流程可复现。
+    \item \textbf{3月底}：三塔模型可在 RTX 3060 上正常训练，验证集 Loss 收敛。
+    \item \textbf{4月中旬}：完成全部 7 组消融实验，整理实验结果表格。
+    \item \textbf{5月中旬}：完成论文初稿，提交导师审阅。
+    \item \textbf{5月底}：完成论文终稿与答辩准备。
+\end{itemize}
