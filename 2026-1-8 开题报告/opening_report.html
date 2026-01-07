@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.26">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>opening_report</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="opening_report_files/libs/clipboard/clipboard.min.js"></script>
+<script src="opening_report_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="opening_report_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="opening_report_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="opening_report_files/libs/quarto-html/popper.min.js"></script>
+<script src="opening_report_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="opening_report_files/libs/quarto-html/anchor.min.js"></script>
+<link href="opening_report_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="opening_report_files/libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="opening_report_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="opening_report_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="opening_report_files/libs/bootstrap/bootstrap-9e3ffae467580fdb927a41352e75a2e0.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  </head><body class="fullcontent quarto-light">mathjax
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+
+
+
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<style>
+/* 全局字体 */
+section { 
+  font-size: 27px; 
+  line-height: 1.6;
+}
+
+/* 标题样式 */
+h2 { 
+  color: #2563eb; 
+  border-bottom: 2px solid #3b82f6;
+  padding-bottom: 8px;
+}
+
+/* 导航栏样式 */
+.nav {
+  font-size: 18px;
+  color: #64748b;
+  text-align: center;
+  margin-top: -30px;
+  margin-bottom: 5px;
+  padding: 4px 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+.nav .current {
+  color: #2563eb;
+  font-weight: bold;
+}
+
+/* 表格美化 */
+table { 
+  font-size: 22px; 
+  border-collapse: collapse;
+  width: 100%;
+}
+th { 
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+  padding: 10px;
+}
+td { 
+  padding: 8px 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+tr:nth-child(even) { background: #f8fafc; }
+
+/* 代码块 */
+code { 
+  font-size: 20px; 
+  background: #e0e7ff;
+  color: #1e40af;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+pre code {
+  display: block;
+  padding: 12px;
+  background: #1e293b;
+  color: #e2e8f0;
+  border-radius: 8px;
+}
+
+/* 列表间距 */
+li { margin-bottom: 6px; }
+
+/* 强调文本 */
+strong { color: #1e40af; }
+</style>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cuit_logo.png" class="img-fluid figure-img"></p>
+<figcaption>w:280|200</figcaption>
+</figure>
+</div>
+<section id="基于多模态情感分析的研究和应用" class="level1">
+<h1>基于多模态情感分析的研究和应用</h1>
+<section id="本科毕业设计开题报告" class="level2">
+<h2 class="anchored" data-anchor-id="本科毕业设计开题报告">本科毕业设计开题报告</h2>
+<p><strong>成都信息工程大学计算机学院</strong></p>
+<p><strong>答辩人</strong>：梁嘉轩   <strong>指导老师</strong>：冯翱</p>
+<hr>
+</section>
+<section id="目录" class="level2">
+<h2 class="anchored" data-anchor-id="目录">目录</h2>
+<ol type="1">
+<li>课题背景与意义</li>
+<li>国内外研究现状</li>
+<li><strong>数据集介绍（CH-SIMS）</strong></li>
+<li><strong>核心技术路线（三塔架构）</strong></li>
+<li><strong>特征提取详解</strong></li>
+<li><strong>融合机制与分类器</strong></li>
+<li><strong>实验设计（含消融实验）</strong></li>
+<li>预期产出与计划</li>
+</ol>
+<hr>
+<div class="nav">
+<span class="current">1.背景</span> | 2.现状 | 3.数据集 | 4.技术 | 5.特征 | 6.融合 | 7.实验 | 8.产出
+</div>
+</section>
+<section id="课题背景与意义" class="level2">
+<h2 class="anchored" data-anchor-id="课题背景与意义">1. 课题背景与意义</h2>
+<p><strong>研究背景：</strong> * 单模态方法难以准确识别反讽、双关等复杂情感表达 * 表情包与文字含义常存在矛盾，单一信息源易产生误判 * 短视频平台用户规模突破10亿，多模态数据成为主流 * 中文语境下的隐晦表达缺乏专用研究数据集</p>
+<p><strong>研究意义：</strong> * <strong>互补性</strong>：文本语义、面部表情、声调韵律三通道相互印证 * <strong>鲁棒性</strong>：单一模态缺失或受噪声干扰时，其他模态可补充 * <strong>应用前景</strong>：舆情监控、智能客服、心理健康分析、人机交互</p>
+<hr>
+<div class="nav">
+1.背景 | <span class="current">2.现状</span> | 3.数据集 | 4.技术 | 5.特征 | 6.融合 | 7.实验 | 8.产出
+</div>
+</section>
+<section id="国内外研究现状" class="level2">
+<h2 class="anchored" data-anchor-id="国内外研究现状">2. 国内外研究现状</h2>
+<p><strong>发展历程：</strong> * <strong>早期</strong>：简单拼接 (Early/Late Fusion)。 * <strong>中期</strong>：双流网络 + 注意力机制 (Attention)。 * <strong>当前</strong>：<strong>Transformer &amp; 大模型</strong> (CLIP, ViT, BERT)。</p>
+<p><strong>目前挑战：</strong> * 模态间的语义对齐（Alignment）。 * 异构数据的特征融合效率。 * <strong>中文多模态数据集稀缺</strong>。</p>
+<hr>
+<div class="nav">
+1.背景 | 2.现状 | <span class="current">3.数据集</span> | 4.技术 | 5.特征 | 6.融合 | 7.实验 | 8.产出
+</div>
+</section>
+<section id="数据集介绍ch-sims" class="level2">
+<h2 class="anchored" data-anchor-id="数据集介绍ch-sims">3. 数据集介绍：CH-SIMS</h2>
+<p><strong>CH-SIMS</strong>（Chinese Single- and Multi-modal Sentiment）是首个中文多模态情感数据集。</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 24%">
+<col style="width: 20%">
+<col style="width: 22%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">统计项</th>
+<th style="text-align: center;">训练集 (Train)</th>
+<th style="text-align: center;">验证集 (Val)</th>
+<th style="text-align: center;">测试集 (Test)</th>
+<th style="text-align: center;"><strong>总计</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>样本数</strong></td>
+<td style="text-align: center;">1,368</td>
+<td style="text-align: center;">456</td>
+<td style="text-align: center;">457</td>
+<td style="text-align: center;"><strong>2,281</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>比例</strong></td>
+<td style="text-align: center;">60%</td>
+<td style="text-align: center;">20%</td>
+<td style="text-align: center;">20%</td>
+<td style="text-align: center;">100%</td>
+</tr>
+</tbody>
+</table>
+<p><strong>数据特性：</strong> * <strong>来源</strong>：电影、电视剧片段（非受控环境，含噪声）。 * <strong>标注</strong>：每一样本包含 <code>(Text, Visual, Audio, Multimodal)</code> 4个独立标签。 * <strong>不平衡性</strong>：正负样本分布不均，需在 Loss 计算时引入<strong>类别权重 (Class Weights)</strong>。</p>
+<hr>
+<div class="nav">
+1.背景 | 2.现状 | <span class="current">3.数据集</span> | 4.技术 | 5.特征 | 6.融合 | 7.实验 | 8.产出
+</div>
+</section>
+<section id="ch-sims-预处理策略" class="level2">
+<h2 class="anchored" data-anchor-id="ch-sims-预处理策略">3.1 CH-SIMS 预处理策略</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 55%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>步骤</th>
+<th>操作</th>
+<th>目的</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>时序对齐</strong></td>
+<td>使用官方预对齐特征（Word-level Align）</td>
+<td>消除模态间时间偏移</td>
+</tr>
+<tr class="even">
+<td><strong>帧率统一</strong></td>
+<td>视频→15 FPS，音频→16kHz</td>
+<td>建立统一采样基准</td>
+</tr>
+<tr class="odd">
+<td><strong>人脸检测</strong></td>
+<td>MTCNN 关键点定位 + 仿射变换</td>
+<td>确保面部区域一致性</td>
+</tr>
+<tr class="even">
+<td><strong>数据清洗</strong></td>
+<td>过滤静音片段 / 黑帧 / 遮挡面部</td>
+<td>排除无效样本</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<div class="nav">
+1.背景 | 2.现状 | 3.数据集 | <span class="current">4.技术</span> | 5.特征 | 6.融合 | 7.实验 | 8.产出
+</div>
+</section>
+<section id="核心技术路线三塔架构" class="level2">
+<h2 class="anchored" data-anchor-id="核心技术路线三塔架构">4. 核心技术路线：三塔架构</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="three_tower_arch.png" class="img-fluid figure-img"></p>
+<figcaption>h:450</figcaption>
+</figure>
+</div>
+<hr>
+<!-- _class: lead -->
+<!-- _paginate: false -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="three_tower_arch.png" class="img-fluid figure-img"></p>
+<figcaption>h:650</figcaption>
+</figure>
+</div>
+<hr>
+<div class="nav">
+1.背景 | 2.现状 | 3.数据集 | <span class="current">4.技术</span> | 5.特征 | 6.融合 | 7.实验 | 8.产出
+</div>
+</section>
+<section id="可行性分析软硬件环境" class="level2">
+<h2 class="anchored" data-anchor-id="可行性分析软硬件环境">4.1 可行性分析：软硬件环境</h2>
+<style scoped="">section { font-size: 24px; } li { margin-bottom: 2px; }</style>
+<p><strong>硬件环境（Hardware）：</strong> * <strong>GPU</strong>：NVIDIA GeForce RTX 3060 Laptop (6GB) / 或 实验室服务器 (Tesla V100/A100) * <strong>内存</strong>：16GB DDR4 / 32GB * <strong>存储</strong>：1TB SSD (保证视频数据读写速度)</p>
+<p><strong>软件栈（Software Stack）：</strong> * <strong>框架</strong>：PyTorch 2.0 + CUDA 11.8 * <strong>核心库</strong>：Transformers (HuggingFace), OpenCV, Torchaudio * <strong>工具</strong>：OpenSMILE (音频特征提取), FFmpeg (视频预处理)</p>
+<hr>
+<div class="nav">
+1.背景 | 2.现状 | 3.数据集 | <span class="current">4.技术</span> | 5.特征 | 6.融合 | 7.实验 | 8.产出
+</div>
+</section>
+<section id="风险控制与应对策略" class="level2">
+<h2 class="anchored" data-anchor-id="风险控制与应对策略">4.2 风险控制与应对策略</h2>
+<ul>
+<li>若 <strong>显存不足</strong>，将采用：
+<ul>
+<li><strong>Gradient Accumulation</strong>（梯度累积）：小批量多次累积梯度</li>
+<li><strong>Freeze Backbone</strong>（冻结预训练层）：只训练分类头</li>
+<li><strong>Mixed Precision Training</strong>（混合精度）：FP16 加速训练</li>
+</ul></li>
+<li>若 <strong>数据不平衡</strong>，将采用：
+<ul>
+<li><strong>Class Weights</strong>（类别权重）：Loss 加权</li>
+<li><strong>Oversampling</strong>（过采样）：增加少数类样本</li>
+</ul></li>
+</ul>
+<hr>
+<div class="nav">
+1.背景 | 2.现状 | 3.数据集 | 4.技术 | <span class="current">5.特征</span> | 6.融合 | 7.实验 | 8.产出
+</div>
+</section>
+<section id="特征提取详解文本塔" class="level2">
+<h2 class="anchored" data-anchor-id="特征提取详解文本塔">5. 特征提取详解：文本塔</h2>
+<p><strong>模型</strong>：<code>bert-base-chinese</code></p>
+<p><strong>处理流程</strong>： 1. 分词：使用 <code>BertTokenizer</code> 处理中文文本 2. 编码：输入 BERT 获取隐藏状态 3. 取特征：<code>[CLS]</code> token → <span class="math inline">\(T \in \mathbb{R}^{768}\)</span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 伪代码示例</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> bert_model(input_ids, attention_mask)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>text_feat <span class="op">=</span> output.last_hidden_state[:, <span class="dv">0</span>, :]  <span class="co"># [CLS]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+<div class="nav">
+1.背景 | 2.现状 | 3.数据集 | 4.技术 | <span class="current">5.特征</span> | 6.融合 | 7.实验 | 8.产出
+</div>
+</section>
+<section id="特征提取详解视觉塔" class="level2">
+<h2 class="anchored" data-anchor-id="特征提取详解视觉塔">5.1 特征提取详解：视觉塔</h2>
+<p><strong>核心痛点：为何选择 MTCNN 而非 YOLO？</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>维度</th>
+<th>YOLO</th>
+<th>MTCNN</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>定位目标</strong></td>
+<td>通用目标检测</td>
+<td>专用人脸任务</td>
+</tr>
+<tr class="even">
+<td><strong>输出内容</strong></td>
+<td>Bounding Box</td>
+<td>BBox + <strong>5关键点</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>对齐能力</strong></td>
+<td>无</td>
+<td>眼/鼻/嘴对齐</td>
+</tr>
+<tr class="even">
+<td><strong>下游任务</strong></td>
+<td>分类/分割</td>
+<td><strong>表情识别关键</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>结论</strong>：MTCNN 的 5-point landmarks 可直接用于人脸仿射变换，确保表情特征在空间上严格对齐。</p>
+<hr>
+<div class="nav">
+1.背景 | 2.现状 | 3.数据集 | 4.技术 | <span class="current">5.特征</span> | 6.融合 | 7.实验 | 8.产出
+</div>
+</section>
+<section id="视觉塔处理流程" class="level2">
+<h2 class="anchored" data-anchor-id="视觉塔处理流程">5.2 视觉塔处理流程</h2>
+<p><strong>流程</strong>： 1. <strong>人脸检测</strong>：MTCNN 检测并定位 5 关键点 2. <strong>仿射对齐</strong>：基于关键点进行仿射变换，归一化至 224×224 3. <strong>特征提取</strong>：ResNet-50（ImageNet 预训练） 4. <strong>时序聚合</strong>：Mean Pooling over frames</p>
+<p><span class="math display">\[
+V = \frac{1}{N}\sum_{i=1}^{N} \text{ResNet}(\text{Align}(f_i)) \in \mathbb{R}^{2048}
+\]</span></p>
+<hr>
+<div class="nav">
+1.背景 | 2.现状 | 3.数据集 | 4.技术 | <span class="current">5.特征</span> | 6.融合 | 7.实验 | 8.产出
+</div>
+</section>
+<section id="特征提取详解声学塔" class="level2">
+<h2 class="anchored" data-anchor-id="特征提取详解声学塔">5.3 特征提取详解：声学塔</h2>
+<p><strong>工具链</strong>：OpenSMILE / Librosa</p>
+<p><strong>特征类型</strong>： - <strong>MFCC</strong>（13维）：捕捉频谱包络 - <strong>Chroma</strong>（12维）：音高分布 - <strong>Spectral Contrast</strong>（7维）：频谱对比度</p>
+<p><strong>编码器</strong>：Conv1D (Kernel=3, Stride=1, Channels=128)</p>
+<p><span class="math display">\[
+A = \text{MeanPool}(\text{Conv1D}(\text{Features})) \in \mathbb{R}^{256}
+\]</span></p>
+<hr>
+<div class="nav">
+1.背景 | 2.现状 | 3.数据集 | 4.技术 | 5.特征 | <span class="current">6.融合</span> | 7.实验 | 8.产出
+</div>
+</section>
+<section id="融合机制与分类器" class="level2">
+<h2 class="anchored" data-anchor-id="融合机制与分类器">6. 融合机制与分类器</h2>
+<p><strong>特征拼接（Early Fusion）</strong>： <span class="math display">\[
+F = [T; V; A] \in \mathbb{R}^{768 + 2048 + 256} = \mathbb{R}^{3072}
+\]</span></p>
+<p><strong>分类器</strong>： <span class="math display">\[
+\hat{y} = \text{Softmax}(\text{FC}(\text{Dropout}(F, p=0.3)))
+\]</span></p>
+<p><strong>防过拟合策略</strong>： - <strong>Dropout</strong> (<span class="math inline">\(p=0.3\)</span>)：随机丢弃神经元 - <strong>L2 正则化</strong> (<span class="math inline">\(\lambda = 10^{-4}\)</span>) - <strong>早停法</strong> (Patience = 10 epochs)</p>
+<hr>
+<div class="nav">
+1.背景 | 2.现状 | 3.数据集 | 4.技术 | 5.特征 | 6.融合 | <span class="current">7.实验</span> | 8.产出
+</div>
+</section>
+<section id="实验设计消融实验" class="level2">
+<h2 class="anchored" data-anchor-id="实验设计消融实验">7. 实验设计：消融实验</h2>
+<p><strong>消融实验（Ablation Study）</strong> 量化证明模态互补性：</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>实验组</th>
+<th>输入模态</th>
+<th>预期作用</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Baseline-T</td>
+<td>文本</td>
+<td>文本独立性能基线</td>
+</tr>
+<tr class="even">
+<td>Baseline-V</td>
+<td>视觉</td>
+<td>视觉独立性能基线</td>
+</tr>
+<tr class="odd">
+<td>Baseline-A</td>
+<td>声学</td>
+<td>声学独立性能基线</td>
+</tr>
+<tr class="even">
+<td>Fusion-TV</td>
+<td>文本+视觉</td>
+<td>验证 T-V 互补性</td>
+</tr>
+<tr class="odd">
+<td>Fusion-TA</td>
+<td>文本+声学</td>
+<td>验证 T-A 互补性</td>
+</tr>
+<tr class="even">
+<td>Fusion-VA</td>
+<td>视觉+声学</td>
+<td>验证 V-A 互补性</td>
+</tr>
+<tr class="odd">
+<td><strong>Full Model</strong></td>
+<td>三模态</td>
+<td>完整融合效果</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<div class="nav">
+1.背景 | 2.现状 | 3.数据集 | 4.技术 | 5.特征 | 6.融合 | <span class="current">7.实验</span> | 8.产出
+</div>
+</section>
+<section id="消融实验预期结论" class="level2">
+<h2 class="anchored" data-anchor-id="消融实验预期结论">7.1 消融实验：预期结论</h2>
+<p><strong>核心假设验证</strong>：</p>
+<ol type="1">
+<li><strong>单模态有效性</strong>：每个模态对最终性能有独立贡献</li>
+<li><strong>正向互补性</strong>：<span class="math inline">\(\text{Acc}_{\text{TV}} &gt; \max(\text{Acc}_T, \text{Acc}_V)\)</span></li>
+<li><strong>三模态最优</strong>：<span class="math inline">\(\text{Acc}_{\text{Full}} &gt; \text{Acc}_{\text{any pair}}\)</span></li>
+</ol>
+<p><strong>评价指标</strong>： - Accuracy - Weighted F1-Score - MAE（Mean Absolute Error，针对回归任务）</p>
+<hr>
+<div class="nav">
+1.背景 | 2.现状 | 3.数据集 | 4.技术 | 5.特征 | 6.融合 | 7.实验 | <span class="current">8.产出</span>
+</div>
+</section>
+<section id="预期产出与计划" class="level2">
+<h2 class="anchored" data-anchor-id="预期产出与计划">8. 预期产出与计划</h2>
+<style scoped="">section { font-size: 23px; } table { font-size: 20px; } li { margin-bottom: 2px; }</style>
+<p><strong>预期产出：</strong> * 完整的多模态情感分析模型源码（PyTorch） * 一个系统演示界面 * 毕业设计论文一篇 * 实验对比数据报告（含消融实验）</p>
+<p><strong>进度安排：</strong> | 阶段 | 时间 | 任务 | | ——– | —– | ———————— | | 数据准备 | 1-2月 | CH-SIMS 预处理与特征提取 | | 模型搭建 | 3月 | 三塔架构实现与初步训练 | | 实验调优 | 4月 | 参数调优与消融实验 | | 论文撰写 | 5月 | 论文撰写与答辩准备 |</p>
+<hr>
+</section>
+<section id="参考文献-references" class="level2">
+<h2 class="anchored" data-anchor-id="参考文献-references">参考文献 (References)</h2>
+<style scoped="">section { font-size: 21px; }</style>
+<ol type="1">
+<li><strong>[CH-SIMS]</strong> Yu, W., Xu, H., et al.&nbsp;“CH-SIMS: A Chinese Multimodal Sentiment Analysis Dataset with Fine-grained Annotation of Modality.” <em>ACL 2020</em>.</li>
+<li><strong>[BERT]</strong> Devlin, J., et al.&nbsp;“BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding.” <em>NAACL 2019</em>.</li>
+<li><strong>[ResNet]</strong> He, K., et al.&nbsp;“Deep Residual Learning for Image Recognition.” <em>CVPR 2016</em>.</li>
+<li><strong>[OpenSMILE]</strong> Eyben, F., et al.&nbsp;“openSMILE: the Munich versatile and fast open-source audio feature extractor.” <em>ACM MM 2010</em>.</li>
+<li><strong>[Multimodal Survey]</strong> Poria, S., et al.&nbsp;“Multimodal sentiment analysis: A generic review.” <em>IEEE Intelligent Systems, 2017</em>.</li>
+</ol>
+<hr>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="cuit_logo.png" class="img-fluid figure-img"></p>
+<figcaption>w:200|200</figcaption>
+</figure>
+</div>
+</section>
+<section id="请各位老师批评指正" class="level2">
+<h2 class="anchored" data-anchor-id="请各位老师批评指正">请各位老师批评指正</h2>
+<p><strong>成都信息工程大学计算机学院</strong></p>
+
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
