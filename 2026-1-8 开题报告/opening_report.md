@@ -289,14 +289,20 @@ h2 { margin-bottom: 20px; }
 
 <div class="nav">1.背景 | 2.现状 | <span class="current">3.数据集</span> | 4.技术 | 5.特征 | 6.融合 | 7.实验 | 8.产出</div>
 
-## 3.1 CH-SIMS 预处理策略
+## 3.1 数据挑战与预处理策略
 
-| 步骤         | 操作                                   | 目的               |
-| ------------ | -------------------------------------- | ------------------ |
-| **时序对齐** | 使用官方预对齐特征（Word-level Align） | 消除模态间时间偏移 |
-| **帧率统一** | 视频→15 FPS，音频→16kHz                | 建立统一采样基准   |
-| **人脸检测** | MTCNN 关键点定位 + 仿射变换            | 确保面部区域一致性 |
-| **数据清洗** | 过滤静音片段 / 黑帧 / 遮挡面部         | 排除无效样本       |
+**核心挑战**：CH-SIMS 属"野外"数据，**48.97% 的样本存在模态情感冲突** (Modality Incongruence)，且含大量背景噪声。
+
+**预处理流水线 (Pipeline)**：
+
+| 阶段     | 关键操作                                | 目的与依据                        |
+| :------- | :-------------------------------------- | :-------------------------------- |
+| **清洗** | 剔除 `Missing Modality` 及极短片段      | 保证三模态时序完整性              |
+| **对齐** | **Word-level Alignment** (基于MMSA标准) | 解决音画不同步，统一采样率        |
+| **视觉** | **MTCNN** 人脸检测与矫正                | 消除头部姿态差异 (Pose Invariant) |
+| **声学** | **OpenSMILE** (IS10 特征集)             | 捕获语调、重音等副语言特征        |
+
+> **注**：为应对复杂噪声，本项目基于 MMSA 框架复现特征提取流程，而非简单加载预制文件，以确保对原始数据的完全掌控。
 
 ---
 
@@ -311,39 +317,42 @@ h2 { margin-bottom: 20px; }
 <!-- _class: lead -->
 <!-- _paginate: false -->
 
-![h:650](three_tower_arch.png)
+<style scoped>
+section {
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+img {
+  margin-top: -1px;
+  margin-bottom: -5px;
+}
+</style>
+
+![h:720](three_tower_arch.png)
 
 ---
 
 <div class="nav">1.背景 | 2.现状 | 3.数据集 | <span class="current">4.技术</span> | 5.特征 | 6.融合 | 7.实验 | 8.产出</div>
 
-## 4.1 可行性分析：软硬件环境
+## 4.1 工程可行性
 
-<style scoped>section { font-size: 24px; } li { margin-bottom: 2px; }</style>
+**硬件约束**：RTX 3060 Laptop (6GB VRAM) vs **三塔模型高显存需求**。
 
-**硬件环境（Hardware）：**
-* **GPU**：NVIDIA GeForce RTX 3060 Laptop (6GB) / 或 实验室服务器 (Tesla V100/A100)
-* **内存**：16GB DDR4 / 32GB
-* **存储**：1TB SSD (保证视频数据读写速度)
+**解决方案：空间换时间 + 梯度累积**
 
-**软件栈（Software Stack）：**
-* **框架**：PyTorch 2.0 + CUDA 11.8
-* **核心库**：Transformers (HuggingFace), OpenCV, Torchaudio
-* **工具**：OpenSMILE (音频特征提取), FFmpeg (视频预处理)
+1.  **Stage 1: 离线特征提取 (Freeze & Extract)**
+    * 使用预训练模型 (BERT/ResNet) 将原始多媒体流转化为低维向量存储 (Disk I/O)。
+    * **效果**：训练阶段显存占用降低 **60%-70%**。
 
----
+2.  **Stage 2: 梯度累积 (Gradient Accumulation)**
+    * 设置 `Batch Size = 1`，`Accumulation Steps = 32`。
+    * **数学等价性**：在数学期望上等价于 `Batch Size = 32` 的训练效果，保证 BN 层统计稳定性。
 
-<div class="nav">1.背景 | 2.现状 | 3.数据集 | <span class="current">4.技术</span> | 5.特征 | 6.融合 | 7.实验 | 8.产出</div>
-
-## 4.2 风险控制与应对策略
-
-* 若 **显存不足**，将采用：
-  - **Gradient Accumulation**（梯度累积）：小批量多次累积梯度
-  - **Freeze Backbone**（冻结预训练层）：只训练分类头
-  - **Mixed Precision Training**（混合精度）：FP16 加速训练
-* 若 **数据不平衡**，将采用：
-  - **Class Weights**（类别权重）：Loss 加权
-  - **Oversampling**（过采样）：增加少数类样本
+3.  **Stage 3: 混合精度训练 (AMP)**
+    * 启用 FP16 精度，显存占用减半，利用 Tensor Core 加速。
 
 ---
 
@@ -368,18 +377,21 @@ text_feat = output.last_hidden_state[:, 0, :]  # [CLS]
 
 <div class="nav">1.背景 | 2.现状 | 3.数据集 | 4.技术 | <span class="current">5.特征</span> | 6.融合 | 7.实验 | 8.产出</div>
 
-## 5.1 特征提取详解：视觉塔
+## 5.1 视觉塔关键技术：人脸仿射变换
 
-**核心痛点：为何选择 MTCNN 而非 YOLO？**
+**问题**：影视剧场景中人物存在大量侧脸、旋转、遮挡，直接输入 CNN 会引入姿态噪声。
 
-| 维度         | YOLO         | MTCNN              |
-| ------------ | ------------ | ------------------ |
-| **定位目标** | 通用目标检测 | 专用人脸任务       |
-| **输出内容** | Bounding Box | BBox + **5关键点** |
-| **对齐能力** | 无           | 眼/鼻/嘴对齐       |
-| **下游任务** | 分类/分割    | **表情识别关键**   |
+**解决方案：基于 5 关键点的仿射变换 (Affine Transformation)**
 
-**结论**：MTCNN 的 5-point landmarks 可直接用于人脸仿射变换，确保表情特征在空间上严格对齐。
+1.  **Landmark Detection**: 使用 MTCNN 定位 [左眼, 右眼, 鼻尖, 左嘴, 右嘴]。
+2.  **Geometric Alignment**: 计算变换矩阵 $M$，将五官映射到标准正脸坐标系。
+3.  **Feature Extraction**: 仅将校正后的 112x112 区域输入 ResNet-50。
+
+$$
+\text{Face}_{aligned} = \text{Affine}(\text{Image}_{raw}, \text{Landmarks}_{5pts})
+$$
+
+**作用**：解耦"姿态"与"表情"，让模型专注于**微表情 (Micro-expression)** 特征。
 
 ---
 
@@ -420,57 +432,39 @@ $$
 
 <div class="nav">1.背景 | 2.现状 | 3.数据集 | 4.技术 | 5.特征 | <span class="current">6.融合</span> | 7.实验 | 8.产出</div>
 
-## 6. 融合机制与分类器
+## 6. 融合机制：特征级融合 (Feature-level Fusion)
 
-**特征拼接（Early Fusion）**：
-$$
-F = [T; V; A] \in \mathbb{R}^{768 + 2048 + 256} = \mathbb{R}^{3072}
-$$
+**架构选择**：鉴于 Late Fusion 丢失交互信息，Early Fusion 维度爆炸，采用 **Feature-level Fusion**。
 
-**分类器**：
+**融合公式**：
 $$
-\hat{y} = \text{Softmax}(\text{FC}(\text{Dropout}(F, p=0.3)))
+\mathbf{h}_{m} = \text{Concat}(\mathbf{h}_{text}, \mathbf{h}_{visual}, \mathbf{h}_{audio}) \in \mathbb{R}^{d_{total}}
 $$
 
-**防过拟合策略**：
-- **Dropout** ($p=0.3$)：随机丢弃神经元
-- **L2 正则化** ($\lambda = 10^{-4}$)
-- **早停法** (Patience = 10 epochs)
+**分类器设计 (MLP Head)**：
+* **Layer 1**: Linear ($d_{total} \to 128$) + ReLU + **Dropout (0.5)** (防止过拟合)
+* **Layer 2**: Linear ($128 \to 3$) + Softmax
+* **Loss Function**: Weighted Cross-Entropy (解决样本不平衡)
 
 ---
 
 <div class="nav">1.背景 | 2.现状 | 3.数据集 | 4.技术 | 5.特征 | 6.融合 | <span class="current">7.实验</span> | 8.产出</div>
 
-## 7. 实验设计：消融实验
+## 7. 实验设计：验证指标与消融分析
 
-**消融实验（Ablation Study）** 量化证明模态互补性：
+**核心假设**：$\text{Acc}_{\text{Full}} > \max(\text{Acc}_T, \text{Acc}_V, \text{Acc}_A)$ (多模态互补性)
 
-| 实验组         | 输入模态  | 预期作用         |
-| -------------- | --------- | ---------------- |
-| Baseline-T     | 文本      | 文本独立性能基线 |
-| Baseline-V     | 视觉      | 视觉独立性能基线 |
-| Baseline-A     | 声学      | 声学独立性能基线 |
-| Fusion-TV      | 文本+视觉 | 验证 T-V 互补性  |
-| Fusion-TA      | 文本+声学 | 验证 T-A 互补性  |
-| Fusion-VA      | 视觉+声学 | 验证 V-A 互补性  |
-| **Full Model** | 三模态    | 完整融合效果     |
+**评价指标 (Metrics)**：
+* **Weighted F1-Score**：**核心指标**。鉴于 CH-SIMS 存在类别不平衡，Accuracy 存在虚高风险，F1 更具参考价值。
+* **Accuracy-2 / Accuracy-3**：辅助指标。
 
----
+**消融实验 (Ablation Study) 计划**：
 
-<div class="nav">1.背景 | 2.现状 | 3.数据集 | 4.技术 | 5.特征 | 6.融合 | <span class="current">7.实验</span> | 8.产出</div>
-
-## 7.1 消融实验：预期结论
-
-**核心假设验证**：
-
-1. **单模态有效性**：每个模态对最终性能有独立贡献
-2. **正向互补性**：$\text{Acc}_{\text{TV}} > \max(\text{Acc}_T, \text{Acc}_V)$
-3. **三模态最优**：$\text{Acc}_{\text{Full}} > \text{Acc}_{\text{any pair}}$
-
-**评价指标**：
-- Accuracy
-- Weighted F1-Score
-- MAE（Mean Absolute Error，针对回归任务）
+| 实验组         | 模态组合         | 目的                              |
+| :------------- | :--------------- | :-------------------------------- |
+| **Unimodal**   | T / V / A        | 确立单模态基线 (特别是 Text-only) |
+| **Bimodal**    | T+V / T+A / V+A  | 探究视觉与声学哪个对文本补充更强  |
+| **Multimodal** | **T+V+A (Full)** | 验证三塔架构的完整增益            |
 
 ---
 
