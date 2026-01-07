@@ -80,7 +80,7 @@ strong { color: #1e40af; }
 
 ![w:280|200](cuit_logo.png)
 
-# 基于多模态情感分析的研究和应用
+# 多模态情感分析模型的研究与应用
 
 ## 本科毕业设计开题报告
 
@@ -92,14 +92,147 @@ strong { color: #1e40af; }
 
 ## 目录
 
-1. 课题背景与意义
-2. 国内外研究现状
-3. **数据集介绍（CH-SIMS）**
-4. **核心技术路线（三塔架构）**
-5. **特征提取详解**
-6. **融合机制与分类器**
-7. **实验设计（含消融实验）**
-8. 预期产出与计划
+<style scoped>
+section { 
+  font-size: 22px; 
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+h2 { margin-bottom: 20px; }
+
+.toc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 0 10px;
+}
+
+.toc-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.toc-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+}
+
+.card-header {
+  padding: 12px 16px;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.phase-1 .card-header { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
+.phase-2 .card-header { background: linear-gradient(135deg, #1d4ed8, #60a5fa); }
+.phase-3 .card-header { background: linear-gradient(135deg, #2563eb, #93c5fd); }
+.phase-4 .card-header { background: linear-gradient(135deg, #3b82f6, #bfdbfe); }
+
+.card-body {
+  padding: 14px 16px;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.toc-item {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.toc-num {
+  font-weight: bold;
+  color: #2563eb;
+  min-width: 24px;
+}
+
+.toc-text {
+  flex: 1;
+}
+
+.toc-text b { color: #1e40af; }
+
+.phase-icon {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+</style>
+
+<div class="toc-grid">
+
+<div class="toc-card phase-1">
+  <div class="card-header">
+    <div class="phase-icon">🎯</div>
+    Phase 1: 为什么做
+  </div>
+  <div class="card-body">
+    <div class="toc-item">
+      <span class="toc-num">1.</span>
+      <span class="toc-text">课题背景与意义</span>
+    </div>
+    <div class="toc-item">
+      <span class="toc-num">2.</span>
+      <span class="toc-text">国内外研究现状</span>
+    </div>
+  </div>
+</div>
+
+<div class="toc-card phase-2">
+  <div class="card-header">
+    <div class="phase-icon">⚙️</div>
+    Phase 2: 怎么做
+  </div>
+  <div class="card-body">
+    <div class="toc-item">
+      <span class="toc-num">3.</span>
+      <span class="toc-text"><b>数据集介绍</b></span>
+    </div>
+    <div class="toc-item">
+      <span class="toc-num">4.</span>
+      <span class="toc-text"><b>核心技术路线</b></span>
+    </div>
+    <div class="toc-item">
+      <span class="toc-num">5.</span>
+      <span class="toc-text"><b>特征提取详解</b></span>
+    </div>
+  </div>
+</div>
+
+<div class="toc-card phase-3">
+  <div class="card-header">
+    <div class="phase-icon">🔬</div>
+    Phase 3: 怎么验证
+  </div>
+  <div class="card-body">
+    <div class="toc-item">
+      <span class="toc-num">6.</span>
+      <span class="toc-text"><b>融合机制与分类器</b></span>
+    </div>
+    <div class="toc-item">
+      <span class="toc-num">7.</span>
+      <span class="toc-text"><b>实验设计</b></span>
+    </div>
+  </div>
+</div>
+
+<div class="toc-card phase-4">
+  <div class="card-header">
+    <div class="phase-icon">📅</div>
+    Phase 4: 何时做
+  </div>
+  <div class="card-body">
+    <div class="toc-item">
+      <span class="toc-num">8.</span>
+      <span class="toc-text">预期产出与计划</span>
+    </div>
+  </div>
+</div>
+
+</div>
 
 ---
 
